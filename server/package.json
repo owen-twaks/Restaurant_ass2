@@ -1,0 +1,22 @@
+{
+  "name": "bella-tavola-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Express backend for Bella Tavola In Town",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "migrate": "node node_modules/auth/dist/index.mjs migrate --config ./auth.js --yes"
+  },
+  "dependencies": {
+    "better-auth": "^1.7.12",
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0",
+    "pg": "^8.16.0"
+  },
+  "devDependencies": {
+    "auth": "^1.7.12"
+  }
+}
