@@ -86,6 +86,13 @@ const { createOrdersSchema } = require('./orders');
 const checkoutRouter = require('./routes/checkout');
 app.post('/api/checkout', checkoutRouter.handleCheckout);
 
+// Register the /api/menu route (and wait for the DB to connect).
+// api.js now exports both registerRoutes and init.
+const registerRoutes = require('./api');
+(async () => {
+  await registerRoutes.init(app);
+})();
+
 // Allow the React client to call this API. The client runs on a
 // different origin (another port now, another domain when deployed),
 // so the browser blocks requests unless the server explicitly allows

@@ -81,8 +81,7 @@ async function setup(app) {
     await db.query(seedData);
     console.log('Seeded 9 menu items into the database');
 
-    // Register the API routes (menu) on the app we were given.
-    require('./api')(app);
+
 
     // Return the app so server.js can use it.
     return app;

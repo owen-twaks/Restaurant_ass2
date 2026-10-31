@@ -11,18 +11,6 @@
 // We use it to run SQL queries inside the route handlers.
 const db = require('./database');
 
-// Wait for the connection to be ready before registering routes.
-// This is important because the pool needs time to connect to the
-// database before we can run any queries.
-(async () => {
-  try {
-    await db.connect();
-    console.log('Database connected. Routes are ready.');
-  } catch (err) {
-    console.error('Failed to connect to database:', err.message);
-  }
-})();
-
 // ------------------------------------------------------------
 // REGISTER ROUTES
 // ------------------------------------------------------------
@@ -55,6 +43,23 @@ function registerRoutes(app) {
   console.log('app._router:', app._router ? 'exists' : 'undefined');
   console.log('app.router:', typeof app.router);
 }
+
+// Wait for the database to connect before we register the routes,
+// because the route handlers need the database pool to be ready.
+async function init(app) {
+  try {
+    await db.connect();
+    console.log('Database connected.');
+    require('./api')(app);
+    console.log('api.js: /api/menu route registered');
+  } catch (err) {
+    console.error('Failed to connect to database:', err.message);
+    process.exit(1);
+  }
+}
+
+module.exports = registerRoutes;
+module.exports.init = init;
 
 // Export the function so server.js can call it.
 module.exports = registerRoutes;
